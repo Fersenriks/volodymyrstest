@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Input from '../components/Input';
-import { userLogIn } from '../storage/auth';
 import { Button } from '@material-ui/core';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ReactComponent as JollyLogo } from '../assets/jolly-logo.svg';
 import { ReactComponent as JollyImg } from '../assets/OBJECTS.svg';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { AuthContext } from '../routes/AuthProvider';
+import { useAuth } from '../hooks/useAuth';
 
 const useStyles = makeStyles({
   root: {
@@ -60,15 +62,28 @@ const useStyles = makeStyles({
   },
 });
 
-const Login = ({ setAuth }) => {
+const Login = () => {
   const classes = useStyles();
-  const [login, setLogin] = useState('');
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const fromPage = location.state?.from?.pathname || '/';
+  const { login, user } = useAuth();
 
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  });
+
+  console.log(user);
+
+  // console.log(context);
   const onClickLogInBtn = () => {
-    if (login === process.env.REACT_APP_LOGIN && password === process.env.REACT_APP_PASSWORD) {
-      userLogIn();
-      setAuth('true');
+    if (userName === process.env.REACT_APP_LOGIN && password === process.env.REACT_APP_PASSWORD) {
+      login();
+      navigate('/');
     }
   };
 
@@ -81,7 +96,7 @@ const Login = ({ setAuth }) => {
       <div className={classes.formSide}>
         <div className={classes.form}>
           <span>SIGN IN TO JollyManager </span>
-          <Input onChange={setLogin} label={'Email'} placeholder={'Enter your email'} />
+          <Input onChange={setUserName} label={'Email'} placeholder={'Enter your email'} />
           <Input
             onChange={setPassword}
             label={'Password'}

@@ -4,13 +4,10 @@ import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Route, Routes } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { fetchAllResources } from '../resources/resources';
 import { CircularProgress } from '@material-ui/core';
-
-const OrdersPage = React.lazy(() => import('../pages/Orders'));
-const SettingsPage = React.lazy(() => import('../pages/SettingsPage'));
+import { Outlet } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -40,12 +37,12 @@ const useStyles = makeStyles({
 
 export const ResourcesContext = createContext(null);
 
-const PrivateRoutes = ({ setAuth }) => {
+const Layout = () => {
   const classes = useStyles();
-
   const { data, isLoading } = useQuery('resources', fetchAllResources);
 
   if (isLoading) {
+    console.log('IS LOADING P_Routes', data);
     return <div>LOADING</div>;
   }
 
@@ -53,14 +50,11 @@ const PrivateRoutes = ({ setAuth }) => {
     <div className={classes.root}>
       <Header />
       <div className={classes.main}>
-        <Sidebar setAuth={setAuth} />
+        <Sidebar />
         <ResourcesContext.Provider value={data}>
           <div className={classes.wrapper}>
             <Suspense fallback={<CircularProgress className={classes.loadingStatus} />}>
-              <Routes>
-                <Route exact path='/' element={<OrdersPage />} />
-                <Route exact path='/settings' element={<SettingsPage />} />
-              </Routes>
+              <Outlet />
             </Suspense>
           </div>
         </ResourcesContext.Provider>
@@ -69,4 +63,4 @@ const PrivateRoutes = ({ setAuth }) => {
   );
 };
 
-export default memo(PrivateRoutes);
+export default memo(Layout);

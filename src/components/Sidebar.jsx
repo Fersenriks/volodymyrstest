@@ -6,9 +6,10 @@ import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import GradingIcon from '@mui/icons-material/Grading';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { userLogOut } from '../storage/auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { useAuth } from '../hooks/useAuth';
 
 const useStyles = makeStyles({
   root: {
@@ -34,17 +35,18 @@ const navOptions = [
   { label: 'Settings', link: '/settings', icon: <BusinessCenterIcon /> },
 ];
 
-const Sidebar = ({ setAuth }) => {
+const Sidebar = () => {
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-
+  const { logout } = useAuth();
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
+  const navigate = useNavigate();
 
   const handleLogOut = () => {
-    userLogOut();
-    setAuth(null);
+    logout();
+    navigate('/login');
   };
 
   return (
