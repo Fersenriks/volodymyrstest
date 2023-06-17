@@ -8,7 +8,7 @@ import ProductItem from './components/ProductItem';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@mui/material/Button';
 import { Stack } from '@mui/material';
-import { ResourcesContext } from '../../routes/PrivateRoutes';
+import { ResourcesContext } from '../../routes/Layout';
 
 import { v4 as uuidv4 } from 'uuid';
 import { useMutation } from 'react-query';
