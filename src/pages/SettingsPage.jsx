@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { ResourcesContext } from '../routes/PrivateRoutes';
+import { ResourcesContext } from '../routes/Layout';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

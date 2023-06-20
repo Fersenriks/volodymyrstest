@@ -1,4 +1,4 @@
-import React, { memo, useContext, useState } from 'react';
+import React, { memo, useContext, useEffect, useState } from 'react';
 
 import { useQuery } from 'react-query';
 
@@ -8,7 +8,7 @@ import ToolBar from '../components/ToolsBar/ToolBar';
 import OrderItem from '../components/Orders/OrderItem';
 import { fetchOrders } from '../resources/orders';
 import { CircularProgress } from '@material-ui/core';
-import { ResourcesContext } from '../routes/PrivateRoutes';
+import { ResourcesContext } from '../routes/Layout';
 import { Pagination } from '@mui/material';
 
 import { makeStyles } from '@material-ui/core/styles';
